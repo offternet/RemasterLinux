@@ -21,34 +21,40 @@ Anyone enteresting working on a opensource project with me that Remasters any GN
 **Determine data size** and copy data to a file (img, iso, or )
 use partition tool like fdisk or lpart to create a new and formate it to ext2, 3 or 4 to match filesystem of source partiton.
 write data image file to new partiton.
-get UUID from new partition and insert in to /etc/fstab file
-```sudo grub-install (if usb bootable drive) /dev/sdb
-sudo mkdir /mnt/sdb
-sudo mount /dev/sdb1 /dev/sdb
-sudo grub-install –-root-directory=/mnt/sdb/boot/grub /dev/sdb```
-Reboot to hard drive grub2 menu
-select /dev/sdb and boot it
-```sudo grub-mkconfig -o /mnt/sdb/boot/grub/grub.cfg
-sudo update-initramfs -u
-sudo update-grub```
 
-These commans are just to accomplish No. 1 above - Get data total blocks used on a partition and write data to img file:
- Example Commands
-```sudo mkdir /mnt/sdb
-sudo mount /dev/sdb1 /mnt/sdb
-used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
-result_MB=$(( used_blocks / 512 ))
-echo "Used Data for /dev/sdb1: $result_MB"
-sudo umount /dev/sdb1
-sleep 3
-sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync```
+get UUID from new partition and insert in to /etc/fstab file
+	```sudo grub-install (if usb bootable drive) /dev/sdb```
+	```sudo mkdir /mnt/sdb```
+	```sudo mount /dev/sdb1 /dev/sdb```
+	```sudo grub-install –-root-directory=/mnt/sdb/boot/grub /dev/sdb```
+	```Reboot to hard drive grub2 menu
+ 
+select /dev/sdb and boot it
+	```sudo grub-mkconfig -o /mnt/sdb/boot/grub/grub.cfg```
+	```sudo update-initramfs -u```
+	```sudo update-grub```
+
+**These commans are just to accomplish No.** 1 above - Get data total blocks used on a partition and write data to img file:
+
+ **Example Commands**
+```sudo mkdir /mnt/sdb```
+```sudo mount /dev/sdb1 /mnt/sdb```
+```used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')```
+```result_MB=$(( used_blocks / 512 ))```
+```echo "Used Data for /dev/sdb1: $result_MB"```
+```sudo umount /dev/sdb1```
+```sleep 3```
+```sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync```
 
 **Result: 1 img file written using dd command:**
+
 Used Data for /dev/sdb1: 1778
+
 1761000000 bytes (1.8 GB, 1.6 GiB) copied, 46 s, 38.3 MB/s
 1778+0 records in
 1778+0 records out
 1778000000 bytes (1.8 GB, 1.7 GiB) copied, 46.4529 s, 38.3 MB/s
-DIFFICULT Step is No. 2 partition. - I have yet to accomplish this step but, I am close. I would like for users to use gparted, so the 1st release could be use of Gparted to handle partition. Or, It could be Calamares Installer setup (which is over kitll) but, Ultimately, a GUI Installer (Calamares) will be built.
+
+**DIFFICULT Step is No. 2 partitio:** - I have yet to accomplish this step but, I am close. I would like for users to use gparted, so the 1st release could be use of Gparted to handle partition. Or, It could be Calamares Installer setup (which is over kitll) but, Ultimately, a GUI Installer (Calamares) will be built.
 Dedicated website will be https://remasterlinux.com
 Feel free to prodive suggestions and ask questions for more detail of the project. TIA Robert
