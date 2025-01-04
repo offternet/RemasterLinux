@@ -33,7 +33,7 @@ sudo update-initramfs -u
 sudo update-grub
 
 **These commans are just to accomplish No. 1 above** - Get data total blocks used on a partition and write data to img file:
- ** Example Commands:**
+ ** Example Commands**
 sudo mkdir /mnt/sdb
 sudo mount /dev/sdb1 /mnt/sdb
 used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
