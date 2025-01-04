@@ -22,26 +22,26 @@ Anyone enteresting working on a opensource project with me that Remasters any GN
 use partition tool like fdisk or lpart to create a new and formate it to ext2, 3 or 4 to match filesystem of source partiton.
 write data image file to new partiton.
 get UUID from new partition and insert in to /etc/fstab file
-sudo grub-install (if usb bootable drive) /dev/sdb
+```sudo grub-install (if usb bootable drive) /dev/sdb
 sudo mkdir /mnt/sdb
 sudo mount /dev/sdb1 /dev/sdb
-sudo grub-install –-root-directory=/mnt/sdb/boot/grub /dev/sdb
+sudo grub-install –-root-directory=/mnt/sdb/boot/grub /dev/sdb```
 Reboot to hard drive grub2 menu
 select /dev/sdb and boot it
-sudo grub-mkconfig -o /mnt/sdb/boot/grub/grub.cfg
+```sudo grub-mkconfig -o /mnt/sdb/boot/grub/grub.cfg
 sudo update-initramfs -u
-sudo update-grub
+sudo update-grub```
 
 **These commans are just to accomplish No. 1 above** - Get data total blocks used on a partition and write data to img file:
  ** Example Commands**
-sudo mkdir /mnt/sdb
+```sudo mkdir /mnt/sdb
 sudo mount /dev/sdb1 /mnt/sdb
 used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
 result_MB=$(( used_blocks / 512 ))
 echo "Used Data for /dev/sdb1: $result_MB"
 sudo umount /dev/sdb1
 sleep 3
-sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync
+sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync```
 
 **Result: 1 img file written using dd command:**
 Used Data for /dev/sdb1: 1778
