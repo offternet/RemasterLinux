@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Title: Detect data size in 1K blocks convert to Megabytles / 512 = *MB
+# Created by: Robert C. Remaster Linux | Jan 03, 2025
+# Website - Contact info: https://RemasterLinux.com
+# License - GNU Public License 3.0 - See License https://www.gnu.org/licenses/gpl-3.0.en.html
+
+# Make Directory sdb - but Need to detect partition type: sdx and associate the mounted directory name
+	sudo mkdir /mnt/sdb
+
+# Mount Source partion mount directory
+	sudo mount /dev/sdb1 /mnt/sdb
+
+# 
+used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
+result_MB=$(( used_blocks / 512 ))
+echo "Used Data for /dev/sdb1: $result_MB"
+sudo umount /dev/sdb1
+sleep 3
+sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync
