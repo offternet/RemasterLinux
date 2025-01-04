@@ -11,10 +11,19 @@
 # Mount Source partion mount directory
 	sudo mount /dev/sdb1 /mnt/sdb
 
-# 
-used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
-result_MB=$(( used_blocks / 512 ))
-echo "Used Data for /dev/sdb1: $result_MB"
-sudo umount /dev/sdb1
-sleep 3
-sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync
+#use df to get data blocks-1K size - Number sectors 
+	used_blocks=$(df --block-size=1K /mnt/sdb| awk 'NR==2 {print $3}')
+
+# Devide Number sectors by 512 to give number in Megabytes & Store in variable
+	result_MB=$(( used_blocks / 512 ))
+
+# Echo to terminal total data on source partition in Megabytes
+	echo "Used Data for /dev/sdb1: $result_MB"
+
+# Unmount source partion under /mnt. This is required so dd can see the partition.
+	sudo umount /dev/sdb1
+
+	sleep 3
+
+# Write all data on source partion to file. ---- Need to add gzip or xz max compression.
+	sudo dd if=/dev/sdb1 of=./all_data_usb_sdb1 bs=1MB count=$result_MB status=progress && sync
